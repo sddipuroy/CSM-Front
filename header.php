@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -31,8 +33,15 @@
         <a href="#review">review</a>
         <a href="#contact">contact</a>
         <a href="#blogs">blogs</a>
+        <?php 
+          if (!isset($_SESSION['role'])) :
+
+        ?>
         <a href="singup.php">singup</a>
         <a href="login.php">login</a>
+        <?php else: ?>
+        <a href="logout.php">logout</a>
+        <?php endif; ?>
       </nav>
 
       <div class="icons">

@@ -1,8 +1,14 @@
 <?php 
 require_once "config.php";
 
+session_start();
+if (isset($_SESSION['role'])) {
+    header("location: index.php");
+}
+
+
 if(isset($_POST['user_reg_btn'])){
-  $name = $_POST['user_name'];
+  $name = $_POST['name'];
   $user_email = $_POST['user_email'];
   $user_num = $_POST['user_num'];
   $user_name = $_POST['user_name'];
@@ -125,7 +131,7 @@ if(isset($_POST['user_reg_btn'])){
           <h3>Sing Up</h3>
           <div class="inputBox">
             <span class="fas fa-user"></span>
-            <input type="text" name="user_name" placeholder="full name" />
+            <input type="text" name="name" placeholder="full name" />
           </div>
           <div class="inputBox">
             <span class="fas fa-envelope"></span>
@@ -134,6 +140,10 @@ if(isset($_POST['user_reg_btn'])){
           <div class="inputBox">
             <span class="fas fa-phone"></span>
             <input type="text" name="user_num" placeholder="number" />
+          </div>
+          <div class="inputBox">
+            <span class="fas fa-user"></span>
+            <input type="text" name="user_name" placeholder="user name" />
           </div>
           <div class="inputBox">
             <span class="fas fa-lock"></span>

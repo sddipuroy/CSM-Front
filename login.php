@@ -1,3 +1,57 @@
+<?php 
+require_once "config.php";
+session_start();
+if (isset($_SESSION['role'])) {
+    header("location: index.php");
+}
+
+if(isset($_POST['user_login_btn'])){
+  $user_email = $_POST['user_email'];
+  $user_password = $_POST['user_password'];
+
+  
+
+
+  if(empty($user_email)){
+    $error = "Email or Mobile is required!";
+  }
+  elseif(empty($user_password)){
+    $error = "Password is required!";
+  } 
+
+
+  else{
+
+    $user_password = SHA1($user_password);
+
+    $stCount = $pdo-> prepare("SELECT id, FROM user WHERE (email=? OR	mobile=?) AND password=?");
+    $stCount->execute(array($user_email,$user_email,$user_password)); 
+    $loginCount = $stCount->rowCount();
+
+    
+
+
+    if($loginCount==1){
+      $success = "Login Successfull";
+      $user = $stCount->fetch(PDO::FETCH_ASSOC);
+      $_SESSION['user_id'] = $user['id'];
+      $_SESSION['role'] =  "user";
+
+      header("location: index.php");
+    }
+    else{
+      $error = "Email and password doesn't match try again!";
+    }
+  }
+
+}
+require_once "header.php";
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,21 +74,27 @@
 
     <section class="contact user-login" id="contact">
       <div class="row">
-        <form action="">
+        <form action="" method="POST">
+          <?php if(isset($error)): ?>
+            <div class="error-message">
+              <?php echo $error; ?>
+           </div>
+          <?php endif; ?>
+          <?php if(isset($success)): ?>
+            <div class="success-message">
+              <?php echo $success; ?>
+            </div>
+          <?php endif; ?>
           <h3>Login</h3>
           <div class="inputBox">
-            <span class="fas fa-user"></span>
-            <input type="text" placeholder="user name" />
-          </div>
-          <div class="inputBox">
             <span class="fas fa-envelope"></span>
-            <input type="email" placeholder="email" />
+            <input type="email" name="user_email" placeholder="email or mobile number" />
           </div>
           <div class="inputBox">
             <span class="fas fa-lock"></span>
-            <input type="text" placeholder="password" />
+            <input type="password" name="user_password" placeholder="password" />
           </div>
-          <input type="submit" value="Login" class="btn" />
+          <input type="submit" name="user_login_btn" value="Login" class="btn" />
         </form>
       </div>
     </section>

@@ -600,6 +600,10 @@ section {
   font-weight: bold;
   margin-bottom: 2rem;
 }
+/* Login Page CSS Here */
+.user-login {
+  padding-top: 6rem;
+}
 /* Single Blog Post CSS Here */
 .blogs .box-container .box .single-img {
   height: 50rem;
